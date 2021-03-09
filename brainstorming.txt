@@ -1,0 +1,73 @@
+shapes must have
+bounding boxes
+model matrices
+intersect method
+
+triangles must have
+3 points
+
+spheres must have
+center
+radius
+
+kd tree
+leaf contains 
+
+start off by
+create needed static variables
+cleaning up readfile
+creating makefile
+create scene graph
+test raytracer on scene 1
+
+
+
+readfile should 
+parse everything
+
+we need to maintain
+vertex list
+per shape
+    link to corresponding object
+per circle
+    link to center and radius
+per triangle
+    3 indices from vertex list
+ambient
+
+object tree
+    collection of changes
+    each node represents
+        model matrix
+        diffuse
+        specular
+        shininess
+        emission
+length/width of image
+
+Image Raytrace(Camera cam, Scene scene, int width, int height){
+    Image image = new Image(width,height);
+    for (int i=0; i<height; i++)
+        for (int j=0; j<width; j++){
+            Ray ray = RayThruPixel( cam, i, j );
+            Intersection hit = Intersect( ray, scene );
+            image[i][j] = FindColor( hit );
+        }
+    return image;
+}
+
+Intersection Intersect(Ray ray, Scene scene){
+    Distance mindist = INFINITY; 
+    Object hitobject = NULL;
+    foreach (object in scene){ // Find closest intersection; test all objects
+        Distance t = Intersect(ray, object);
+        if (t>0 && t< mindist){ // closer than previous closest object
+            mindist = t;
+            hitobject = object;
+        }
+    }
+    return IntersectionInfo(ray, mindist, hitobject);
+}
+
+questions
+how do i deal with static variables
